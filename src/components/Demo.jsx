@@ -49,7 +49,7 @@ const Demo = () => {
   const handleCopy = (copyUrl) => {
     setCopied(copyUrl);
     navigator.clipboard.writeText(copyUrl);
-    setTimeout(() => setCopied(false), 3000)
+    setTimeout(() => setCopied(false), 5000)
   }
 
   return (
