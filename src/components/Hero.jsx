@@ -1,4 +1,4 @@
-import logo from '../assets';
+import { logo } from '../assets';
 
 const Hero = () => {
   return (
@@ -8,7 +8,7 @@ const Hero = () => {
             <button
                 type='button'
                 onClick={() => window.opwn('https://github.com/michojekunle/Ai-Summarizer')}
-                className='back_btn'
+                className='black_btn'
             >
                 Github
             </button>
