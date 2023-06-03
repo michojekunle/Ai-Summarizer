@@ -11,13 +11,13 @@ export const articleApi = createApi({
             headers.set('X-RapidAPI-Host', 'article-extractor-and-summarizer.p.rapidapi.com');
 
             return headers;
-        }
+        },
     }),
     endpoints: (builder) => ({
         getSummary: builder.query({
-            query: (params) => `/summarize?url=${encodeURIComponent(params.articleUrl)}&length=3`
+            query: (params) => `summarize?url=${encodeURIComponent(params.articleUrl)}&length=3`
         })
     })
 });
 
-export const { useLazyGetSummaryQuery } = articleApi;https://github.com/adrianhajdin/project_ai_summarizer/tree/main/src/services
+export const { useLazyGetSummaryQuery } = articleApi;
