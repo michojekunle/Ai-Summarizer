@@ -17,6 +17,7 @@ const Demo = () => {
     const articlesFromLocalStorage = JSON.parse(localStorage.getItem('articles'));
     if(articlesFromLocalStorage) {
       setAllArticles(articlesFromLocalStorage);
+      console.log(allArticles);
     }
   }, []);
 
@@ -34,7 +35,8 @@ const Demo = () => {
       setArticle(newArticle);
       setAllArticles(updatedAllArticles);
       console.log(newArticle);
-      localStorage.setItem('articles', JSON.stringify(updatedAllArticles))
+      console.log(allArticles)
+      localStorage.setItem('articles', JSON.stringify(updatedAllArticles));
     }
   }
 
@@ -75,7 +77,7 @@ const Demo = () => {
         </form>
         { /* Browse URL History */ }
         <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
-          {allArticles.map((item, index) => (
+          {allArticles.length > 0 && (allArticles?.map((item, index) => (
             <div
               key={`link-${index}`}
               onClick={() => setArticle(item)}
@@ -94,7 +96,7 @@ const Demo = () => {
                 {item.url}
               </p>
             </div>
-          ))}
+          )))}
         </div>
 
       </div>
