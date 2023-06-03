@@ -14,29 +14,35 @@ const Demo = () => {
 
 
   useEffect(() => {
-    const articlesFromLocalStorage = JSON.parse(localStorage.getItem('articles'));
+    const articlesFromLocalStorage = JSON.parse(localStorage.getItem("articles"));
     if(articlesFromLocalStorage) {
       setAllArticles(articlesFromLocalStorage);
-      console.log(allArticles);
     }
   }, []);
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    const existingArticle = allArticles.find(
+      (item) => item.url === article.url
+    );
+
+    if (existingArticle) return setArticle(existingArticle);
+
     const { data } = await getSummary({ articleUrl: article.url });
 
     console.log(data);
 
     if (data?.summary) {
       const newArticle = { ...article, summary: data.summary };
-      const updatedAllArticles = { newArticle, ...allArticles };
+      const updatedAllArticles = [ newArticle, ...allArticles ];
 
 
       setArticle(newArticle);
       setAllArticles(updatedAllArticles);
       console.log(newArticle);
       console.log(allArticles)
-      localStorage.setItem('articles', JSON.stringify(updatedAllArticles));
+      localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
     }
   }
 
@@ -77,7 +83,7 @@ const Demo = () => {
         </form>
         { /* Browse URL History */ }
         <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
-          {allArticles.length > 0 && (allArticles?.map((item, index) => (
+          {allArticles.reverse().map((item, index) => (
             <div
               key={`link-${index}`}
               onClick={() => setArticle(item)}
@@ -85,8 +91,8 @@ const Demo = () => {
             >
               <div className="copy_btn" onClick={() => handleCopy(item.url)}>
                 <img
-                  src={copied === item.url ? tick: copy}
-                  alt="copy_icon"
+                  src={copied === item.url ? tick : copy}
+                  alt={copied === item.url ? "tick_icon" : "copy_icon"}
                   className="w-[40%] h-[40%] object-contain"
                 />
               </div>
@@ -96,7 +102,7 @@ const Demo = () => {
                 {item.url}
               </p>
             </div>
-          )))}
+          ))}
         </div>
 
       </div>
