@@ -3,7 +3,7 @@ import { copy, loader, tick, linkIcon } from "../assets";
 import { useLazyGetSummaryQuery } from '../services/article';
 
 const Demo = () => {
-  const [ article, setArticle ] = useState({
+  const [article, setArticle] = useState({
     url: "",
     summary: "",
   });
@@ -15,7 +15,7 @@ const Demo = () => {
 
   useEffect(() => {
     const articlesFromLocalStorage = JSON.parse(localStorage.getItem("articles"));
-    if(articlesFromLocalStorage) {
+    if (articlesFromLocalStorage) {
       setAllArticles(articlesFromLocalStorage);
     }
   }, []);
@@ -35,7 +35,7 @@ const Demo = () => {
 
     if (data?.summary) {
       const newArticle = { ...article, summary: data.summary };
-      const updatedAllArticles = [ newArticle, ...allArticles ];
+      const updatedAllArticles = [newArticle, ...allArticles];
 
 
       setArticle(newArticle);
@@ -69,7 +69,7 @@ const Demo = () => {
             type="url"
             placeholder="Enter a URL"
             value={article.url}
-            onChange={(e) => setArticle({...article, url: e.target.value })}
+            onChange={(e) => setArticle({ ...article, url: e.target.value })}
             required
             className="url_input peer"
           />
@@ -81,7 +81,7 @@ const Demo = () => {
             ⎆
           </button>
         </form>
-        { /* Browse URL History */ }
+        { /* Browse URL History */}
         <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
           {allArticles.reverse().map((item, index) => (
             <div
@@ -108,29 +108,39 @@ const Demo = () => {
       </div>
       {/* Display Results */}
       <div className="my-10 max-w-full flex justify-center items-center">
-          {isFetching ? (
-            <img src={loader} alt="loader" className="w-20 h-20 object-contain"/>
-          ) : error ? (
-            <p className="font-inter font-bold text-black text-center">
-              Well, that wasn't supposed to happen...
-              <br/>
-              <span className="font-satoshi font-normal text-gray-700">
-                {error?.data?.error}
-              </span>
-            </p>
-          ) : (
-            article.summary && (
-              <div className="flex flex-col gap-3">
+        {isFetching ? (
+          <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
+        ) : error ? (
+          <p className="font-inter font-bold text-black text-center">
+            Well, that wasn't supposed to happen...
+            <br />
+            <span className="font-satoshi font-normal text-gray-700">
+              {error?.data?.error}
+            </span>
+          </p>
+        ) : (
+          article.summary && (
+            <div className="flex flex-col gap-3">
+              <div className='w-full flex items-center justify-between gap-3'>
                 <h2 className="font-satoshi font-bold text-xl text-gray-700">
                   Article
+                  &nbsp;
                   <span className="blue_gradient">Summary</span>
                 </h2>
-                <div className="summary_box">
-                  <p className="font-inter font-medium text-sm text-gray-700">{article.summary}</p>
+                <div className="copy_btn" onClick={() => handleCopy(article.summary)}>
+                  <img
+                    src={copied === item.url ? tick : copy}
+                    alt={copied === item.url ? "tick_icon" : "copy_icon"}
+                    className="w-4 h-4 object-contain"
+                  />
                 </div>
               </div>
-            )
-          )}
+              <div className="summary_box">
+                <p className="font-inter font-medium text-sm text-gray-700">{article.summary}</p>
+              </div>
+            </div>
+          )
+        )}
       </div>
     </section>
   )
